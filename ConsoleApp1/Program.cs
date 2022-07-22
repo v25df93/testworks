@@ -1,26 +1,25 @@
-﻿using System;
-public class Animal
+﻿public class Animal
 {
-    private string name;
-    private int calories;
-    private int amount;
+    protected string name;
+    protected int calories;
+    protected int amount;
     public int days;
-
-    private int banana = 1200;
-    private int meat = 2600;
 
     public Animal()
     {
         this.name = "0";
         this.calories = 0;
         this.amount = 0;
+
     }
 
-    public Animal (string name, int calories, int amount)
+    public Animal(string name, int calories, int amount)
     {
         this.name = name;
         this.calories = calories;
         this.amount = amount;
+
+
     }
 
     public string getNameAnimal()
@@ -28,11 +27,11 @@ public class Animal
         return name;
     }
 
-    public int getCaloriesPerMonth()
-    {
-        return (calories*amount*days)/meat;  
+    //public int getCaloriesPerMonth()
+    //{
+    //    return calories * amount * 30;
 
-    }
+    //}
     public int getAmountAnimal()
     {
         return amount;
@@ -42,93 +41,124 @@ public class Animal
         return calories;
     }
 
-    //public int getCaloriesLion()
-    //{
-        
-    //}
-
-
 };
+class Plant : Animal
+{
 
+    float kgOfFood;
+    int caloriesInBanana = 960;
+    public Plant(string name, int calories, int amount)
+    {
+        this.name = name;
+        this.calories = calories;
+        this.amount = amount;
+        kgOfFood = (float)amount * calories / caloriesInBanana;
+    }
+
+    public float getBananas()
+    {
+        return kgOfFood;
+    }
+}
+class Meat : Animal
+{
+    float kgOfFood;
+    int caloriesInMeat = 3180;
+    public Meat(string name, int calories, int amount)
+    {
+        this.name = name;
+        this.calories = calories;
+        this.amount = amount;
+        kgOfFood = (float)amount * calories / caloriesInMeat;
+    }
+
+
+    public float getMeat()
+    {
+        return kgOfFood;
+    }
+}
+class meatPlant : Animal
+{
+    private float kgOfMeat;
+    private float kgOfBananas;
+    private int caloriesInMeat = 3180;
+    private int caloriesInBananas = 960;
+
+    public meatPlant(string name, int calories, int amount)
+    {
+        this.name = name;
+        this.calories = calories;
+        this.amount = amount;
+        kgOfMeat = (float)amount * calories / (2 * caloriesInMeat);
+        kgOfBananas = (float)amount * calories / (2 * caloriesInBananas);
+    }
+
+    public float getMeat()
+    {
+        return kgOfMeat;
+    }
+    public float getBananas()
+    {
+        return kgOfBananas;
+    }
+}
 class testanimal
 {
-    //static void addNewAnimal(List<Animal> theAnimals)
-    //{
-    //    bool flag = false;
-    //    Console.WriteLine("Введите название животного");
-    //    string name = Console.ReadLine();
-    //    Console.WriteLine("Введите количество калорий в день для животного");
-    //    int calories = Convert.ToInt16(Console.ReadLine());
-    //    Console.WriteLine("Введите количество животных");
-    //    int amount = Convert.ToInt16(Console.ReadLine());
-        
-    //    foreach (Animal theAnimal in theAnimals)
-    //    {
-    //        if (theAnimal.getNameAnimal() == name)
-    //            flag = true;
-    //    }
-    //    if (flag)
-    //        Console.WriteLine("Животное уже добавлено");
-    //    else
-    //    {
-    //        theAnimals.Add(new Animal(name, calories, amount));
-    //        Console.WriteLine("Животное уже добавлено");
-    //    }
-    //}
+    static int amountofdays()
+    {
+        Console.WriteLine("Введите цифру месяца: \n 1)Январь \n 2)Февраль \n 3)Март \n 4)Апрель \n 5)Май \n 6)Июнь \n 7)Июль\n 8)Август \n 9)Сентябрь \n 10)Октябрь \n 11)Ноябрь \n 12)Декабрь");
+        int month;
+        int days;
+        month = Convert.ToInt16(Console.ReadLine());
+        if (month == 4 || month == 6 || month == 9 || month == 11)
+            days = 30;
+        else if (month == 2)
+            days = 28;
+        else
+            days = 31;
+        return days;
+    }
+
+
     static void Main()
     {
-        int banana = 1200, meat = 2600;
         int amount;
-        var theAnimals = new List<Animal>();
-
-        string month;
-        int days = 31;
-        Console.WriteLine("Введите месяц");
-        month = Console.ReadLine();
-         switch (month)
-      {
-        case "Январь":
-        case "Март":
-        case "Май":
-        case "Июль":
-        case "Август":
-        case "Октябрь":
-        case "Декабрь":
-          Console.WriteLine("Количество дней = " + days);
-          break;
-        case "Февраль":
-                days = 28;
-          Console.WriteLine("Количество дней = 28");
-          break;
-        case "Апрель":
-        case "Июнь":
-        case "Сентябрь":
-        case "Ноябрь":
-                days = 30;
-                Console.WriteLine("Количество дней = 30");
-          break;
-        default:
-          Console.WriteLine("Неправильный ввод");
-          break;
-      }
+        int days;
+        float kgBanans = 0;
+        float kgMeat = 0;
+        var theMeats = new List<Meat>();
+        var thePlants = new List<Plant>();
+        var theBoth = new List<meatPlant>();
+        days = amountofdays();
 
 
         Console.WriteLine("Введите количество медведей");
         amount = Convert.ToInt16(Console.ReadLine());
-        theAnimals.Add(new Animal("Медведь", 15000, amount));
+        theBoth.Add(new meatPlant("Медведь", 15000, amount));
 
         Console.WriteLine("Введите количество львов");
         amount = Convert.ToInt16(Console.ReadLine());
-        theAnimals.Add(new Animal("Лев", 10000, amount));
+        theMeats.Add(new Meat("Лев", 10000, amount));
 
         Console.WriteLine("Введите количество обезьян");
         amount = Convert.ToInt16(Console.ReadLine());
-        theAnimals.Add(new Animal("Обезьяна", 1000, amount));
-    
-        foreach (Animal theAnimal in theAnimals)
+        thePlants.Add(new Plant("Обезьяна", 1000, amount));
+
+        foreach (meatPlant theAnimal in theBoth)
         {
-            Console.WriteLine(theAnimal.getCaloriesPerMonth());
+            kgBanans += theAnimal.getBananas();
+            kgMeat += theAnimal.getMeat();
         }
+        foreach (Meat theAnimal in theMeats)
+        {
+            kgMeat += theAnimal.getMeat();
+        }
+        foreach (Plant theAnimal in thePlants)
+        {
+            kgBanans += theAnimal.getBananas();
+        }
+        Console.WriteLine("Необходимо мяса: " + Math.Round(kgMeat * days, 1) + "кг " + "Необходимо бананов: " + Math.Round(kgBanans * days / 1) + "кг");
     }
 }
 
@@ -142,6 +172,3 @@ class testanimal
 //Animal bear("Медведь","Мясо");
 
 //Animal = Animal.Animal("bear", "monkey", "lion");
-
-
-
